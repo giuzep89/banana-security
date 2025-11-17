@@ -5,22 +5,25 @@ export const AuthContext = createContext({});
 
 function AuthContextProvider({children}) {
     const navigate = useNavigate();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [authentication, setAuthentication] = useState({
+        isAuth: false,
+        user: ""
+    });
 
-    function login(){
-        setIsAuthenticated(true);
+    function login(user){
+        setAuthentication({isAuth: true, user: user});
         console.log("Gebruiker is ingelogd!");
         navigate("/profile");
     }
 
     function logout(){
-        setIsAuthenticated(false);
+        setAuthentication({isAuth: false, user: ""});
         console.log("Gebruiker is uitgelogd!");
         navigate("/");
     }
 
     const data = {
-        isAuthenticated,
+        ...authentication,
         login,
         logout
     }

@@ -2,15 +2,15 @@ import React, {useContext} from 'react';
 import logo from '../assets/banana-01.png';
 import {useNavigate, Link} from 'react-router-dom';
 import {AuthContext} from "./authcontext/AuthContext";
+import profile from "../pages/Profile";
 
 function NavBar() {
+    const {isAuth, user, logout} = useContext(AuthContext);
     const navigate = useNavigate();
-    const {isAuthenticated, login, logout} = useContext(AuthContext);
-
-
 
     return (
         <nav>
+
             <Link to="/">
           <span className="logo-container">
             <img src={logo} alt="logo"/>
@@ -20,8 +20,10 @@ function NavBar() {
           </span>
             </Link>
 
+            {isAuth && <span className="user">{user}</span>}
+
             <div>
-                {isAuthenticated === false ?
+                {!isAuth ?
                     <>
                         <button
                             type="button"
@@ -35,15 +37,14 @@ function NavBar() {
                         >
                             Registreren
                         </button>
-                        </> :
-                    <button
-                        type="button"
-                        onClick={() => logout()}
-                    >
-                        Log out
-                    </button>
+                    </> :
+                        <button
+                            type="button"
+                            onClick={() => logout()}
+                        >
+                            Log out
+                        </button>
                 }
-
             </div>
         </nav>
     );

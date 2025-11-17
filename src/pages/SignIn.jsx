@@ -13,9 +13,9 @@ function SignIn() {
         setFormData({...formData, [fieldText]: e.target.value});
     }
 
-    function handleFormSubmit(){
-        login();
-        console.log(formData);
+    function handleFormSubmit(e){
+        e.preventDefault();
+        login(formData.email);
     }
 
   return (
@@ -24,7 +24,7 @@ function SignIn() {
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias cum debitis dolor dolore fuga id molestias qui quo unde?</p>
       <form onSubmit={handleFormSubmit}>
           <label>Email
-              <input type="text" id="email" onChange={(e) => handleFormChange(e, "email")}/>
+              <input type="email" id="email" onChange={(e) => handleFormChange(e, "email")}/>
           </label>
           <label>Password
               <input type="text" id="password" onChange={(e) => handleFormChange(e, "password")}/>
