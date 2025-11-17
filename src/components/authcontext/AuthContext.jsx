@@ -1,16 +1,22 @@
 import {createContext, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 export const AuthContext = createContext({});
 
 function AuthContextProvider({children}) {
+    const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     function login(){
         setIsAuthenticated(true);
+        console.log("Gebruiker is ingelogd!");
+        navigate("/profile");
     }
 
     function logout(){
         setIsAuthenticated(false);
+        console.log("Gebruiker is uitgelogd!");
+        navigate("/");
     }
 
     const data = {
