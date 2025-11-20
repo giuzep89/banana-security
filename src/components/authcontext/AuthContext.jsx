@@ -7,17 +7,19 @@ function AuthContextProvider({children}) {
     const navigate = useNavigate();
     const [authentication, setAuthentication] = useState({
         isAuth: false,
-        user: ""
+        user: null
     });
 
-    function login(user){
+    function login(user, token){
         setAuthentication({isAuth: true, user: user});
+        localStorage.setItem("token", token);
         console.log("Gebruiker is ingelogd!");
         navigate("/profile");
     }
 
+
     function logout(){
-        setAuthentication({isAuth: false, user: ""});
+        setAuthentication({isAuth: false, user: null});
         console.log("Gebruiker is uitgelogd!");
         navigate("/");
     }
@@ -25,7 +27,7 @@ function AuthContextProvider({children}) {
     const data = {
         ...authentication,
         login,
-        logout
+        logout,
     }
 
     return (

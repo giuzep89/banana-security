@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
 import { Link } from 'react-router-dom';
 import {AuthContext} from "../components/authcontext/AuthContext";
+import axios from "axios";
 
 function SignIn() {
     const {login} = useContext(AuthContext);
@@ -8,6 +9,36 @@ function SignIn() {
         email: "",
         password: ""
     });
+    const [error, toggleError] = useState(false);
+
+    async function signIn({email, password}){
+        toggleError(false);
+
+
+        //TODO: steps 13 to 15
+        // - Add user to the response object
+        // - Create a GET request inside login() to retrieve
+        // - Decode token in login()
+        // - Extract id from token
+        // - Create a GET request inside login() to retrieve user details
+        // - Add username, email and id to the user object inside authentication
+
+
+        try{
+            const response = await axios.post("https://novi-backend-api-wgsgz.ondigitalocean.app/api/login", {
+                "email": email,
+                "password": password
+            }, {
+                headers: {'novi-education-project-id': 'c5b1327a-6c34-419a-8701-6b842cba268c'}
+            })
+            console.log(response.data);
+            const token = response.data.token;
+            login(email, token);
+        } catch (e) {
+            toggleError(true);
+            console.error(e);
+        }
+    }
 
     function handleFormChange(e, fieldText){
         setFormData({...formData, [fieldText]: e.target.value});
@@ -15,7 +46,7 @@ function SignIn() {
 
     function handleFormSubmit(e){
         e.preventDefault();
-        login(formData.email);
+        signIn(formData);
     }
 
   return (
