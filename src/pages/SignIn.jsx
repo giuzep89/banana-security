@@ -14,16 +14,6 @@ function SignIn() {
     async function signIn({email, password}){
         toggleError(false);
 
-
-        //TODO: steps 13 to 15
-        // - Add user to the response object
-        // - Create a GET request inside login() to retrieve
-        // - Decode token in login()
-        // - Extract id from token
-        // - Create a GET request inside login() to retrieve user details
-        // - Add username, email and id to the user object inside authentication
-
-
         try{
             const response = await axios.post("https://novi-backend-api-wgsgz.ondigitalocean.app/api/login", {
                 "email": email,
@@ -33,7 +23,7 @@ function SignIn() {
             })
             console.log(response.data);
             const token = response.data.token;
-            login(email, token);
+            login(token);
         } catch (e) {
             toggleError(true);
             console.error(e);

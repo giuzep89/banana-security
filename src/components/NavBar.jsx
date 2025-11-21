@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import logo from '../assets/banana-01.png';
 import {useNavigate, Link} from 'react-router-dom';
 import {AuthContext} from "./authcontext/AuthContext";
-import profile from "../pages/Profile";
 
 function NavBar() {
     const {isAuth, user, logout} = useContext(AuthContext);
@@ -20,7 +19,9 @@ function NavBar() {
           </span>
             </Link>
 
-            {isAuth && <span className="user">{user}</span>}
+            {isAuth && user &&
+                <span className="user">{user.email}</span>
+            }
 
             <div>
                 {!isAuth ?
@@ -38,12 +39,12 @@ function NavBar() {
                             Registreren
                         </button>
                     </> :
-                        <button
-                            type="button"
-                            onClick={() => logout()}
-                        >
-                            Log out
-                        </button>
+                    <button
+                        type="button"
+                        onClick={() => logout()}
+                    >
+                        Log out
+                    </button>
                 }
             </div>
         </nav>
