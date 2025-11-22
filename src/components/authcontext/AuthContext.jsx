@@ -2,6 +2,7 @@ import {createContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {jwtDecode} from 'jwt-decode';
 import axios from "axios";
+import {isTokenExpired} from "../helpers/isTokenExpired";
 
 
 export const AuthContext = createContext({});
@@ -18,14 +19,13 @@ function AuthContextProvider({children}) {
         console.log("Context wordt gerefresht!");
 
         async function checkToken() {
-            if (localStorage.getItem("token")) {
+            if (localStorage.getItem("token") && !isTokenExpired()) {
                 const decodedToken = jwtDecode(localStorage.getItem("token"));
 
                 try {
                     const response = await axios.get(`https://novi-backend-api-wgsgz.ondigitalocean.app/api/users/${decodedToken.userId}`, {
                         headers: {'novi-education-project-id': 'c5b1327a-6c34-419a-8701-6b842cba268c'}
                     })
-                    console.log(response.data);
 
                     setAuthentication({
                         isAuth: true,
@@ -58,13 +58,11 @@ function AuthContextProvider({children}) {
     async function login(token) {
         localStorage.setItem("token", token);
         const decodedToken = jwtDecode(token);
-        console.log(decodedToken);
 
         try {
             const response = await axios.get(`https://novi-backend-api-wgsgz.ondigitalocean.app/api/users/${decodedToken.userId}`, {
                 headers: {'novi-education-project-id': 'c5b1327a-6c34-419a-8701-6b842cba268c'}
             })
-            console.log(response.data);
 
             setAuthentication({
                 isAuth: true,
