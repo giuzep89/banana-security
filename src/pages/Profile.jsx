@@ -2,20 +2,23 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {AuthContext} from "../components/authcontext/AuthContext";
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
 
 function Profile() {
     const {user} = useContext(AuthContext);
     const [secrets, setSecrets] = useState({});
 
     useEffect(() => {
+        const controller = new AbortController();
+
         async function fetchSecrets() {
             const token = localStorage.getItem("token");
+
             try {
                 const response = await axios.get(`https://novi-backend-api-wgsgz.ondigitalocean.app/api/secrets/`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
-                        'novi-education-project-id': 'c5b1327a-6c34-419a-8701-6b842cba268c'
+                        'novi-education-project-id': 'c5b1327a-6c34-419a-8701-6b842cba268c',
+                        signal: controller.signal
                     }
                 })
                 setSecrets(response.data[0]);
@@ -23,8 +26,11 @@ function Profile() {
                 console.error(e);
             }
         }
-
         fetchSecrets();
+
+        return function cleanup(){
+            controller.abort();
+        }
     }, []);
 
     return (

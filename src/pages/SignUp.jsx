@@ -10,17 +10,20 @@ function SignUp() {
     });
     const [error, toggleError] = useState(false);
     const navigate = useNavigate();
+    const [controller, setController] = useState(new AbortController);
 
     async function createUser({email, password}) {
         toggleError(false);
+
         try {
             const response = await axios.post("https://novi-backend-api-wgsgz.ondigitalocean.app/api/users",
                 {
                     "email": email,
                     "password": password,
-                    "roles": ["user"]
+                    "roles": ["user"],
                 }, {
-                    headers: {'novi-education-project-id': 'c5b1327a-6c34-419a-8701-6b842cba268c'}
+                    headers: {'novi-education-project-id': 'c5b1327a-6c34-419a-8701-6b842cba268c'},
+                    signal: controller.signal
                 })
             console.log("Registration successful:", response.status, response.data);
             navigate("/signin");
@@ -29,6 +32,12 @@ function SignUp() {
             console.error(e);
         }
     }
+
+    useEffect(() => {
+        return function cleanup(){
+            controller.abort();
+        }
+    }, []);
 
     function handleFormChange(e, fieldText) {
         setFormData({...formData, [fieldText]: e.target.value});

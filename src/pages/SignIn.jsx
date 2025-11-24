@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import {AuthContext} from "../components/authcontext/AuthContext";
 import axios from "axios";
@@ -10,6 +10,7 @@ function SignIn() {
         password: ""
     });
     const [error, toggleError] = useState(false);
+    const [controller, setController] = useState(new AbortController);
 
     async function signIn({email, password}){
         toggleError(false);
@@ -19,7 +20,8 @@ function SignIn() {
                 "email": email,
                 "password": password
             }, {
-                headers: {'novi-education-project-id': 'c5b1327a-6c34-419a-8701-6b842cba268c'}
+                headers: {'novi-education-project-id': 'c5b1327a-6c34-419a-8701-6b842cba268c'},
+                signal: controller.signal
             })
             console.log(response.data);
             const token = response.data.token;
@@ -29,6 +31,12 @@ function SignIn() {
             console.error(e);
         }
     }
+
+    useEffect(() => {
+        return function cleanup(){
+            controller.abort();
+        }
+    }, []);
 
     function handleFormChange(e, fieldText){
         setFormData({...formData, [fieldText]: e.target.value});
