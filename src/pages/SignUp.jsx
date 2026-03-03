@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {isRouteErrorResponse, Link, useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from "axios";
 
 function SignUp() {
@@ -61,7 +61,7 @@ function SignUp() {
                     <input type="email" id="email" onChange={(e) => handleFormChange(e, "email")}/>
                 </label>
                 <label>Password
-                    <input type="text" id="password" onChange={(e) => handleFormChange(e, "password")}/>
+                    <input type="password" id="password" onChange={(e) => handleFormChange(e, "password")}/>
                 </label>
                 <label>Username
                     <input type="text" id="username" onChange={(e) => handleFormChange(e, "username")}/>

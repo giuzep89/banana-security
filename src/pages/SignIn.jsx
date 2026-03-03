@@ -56,7 +56,7 @@ function SignIn() {
               <input type="email" id="email" onChange={(e) => handleFormChange(e, "email")}/>
           </label>
           <label>Password
-              <input type="text" id="password" onChange={(e) => handleFormChange(e, "password")}/>
+              <input type="password" id="password" onChange={(e) => handleFormChange(e, "password")}/>
           </label>
         <button type="submit">Inloggen</button>
       </form>
