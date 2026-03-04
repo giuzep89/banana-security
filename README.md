@@ -1,6 +1,6 @@
 # Banana Security
 
-A small React app I built to learn how authentication works - login, registration, JWT tokens, protected routes.
+A small React app I built as an assignment from NOVI Hogeschool to learn how authentication works: login, registration, JWT tokens, protected routes. 
 
 ## Tech Stack
 
